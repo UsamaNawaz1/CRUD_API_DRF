@@ -8,7 +8,9 @@ from .permissions import AuthorOrReadOnly
 
 class PostList(generics.ListCreateAPIView):
     
-    queryset = post.objects.all()
+    def get_queryset(self):
+        posts = post.objects.filter(author=self.request.user)
+        return posts
     serializer_class = PostSerializer
 
 class DetailPost(generics.RetrieveUpdateDestroyAPIView):
